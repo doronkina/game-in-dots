@@ -1,0 +1,77 @@
+$color-border: darkgray;
+
+.app {
+    height: 98vh;
+    margin: 0 10vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    border: 1vh solid $color-border;
+}
+
+.leaderBoard {
+    padding: 6vh 3vw;
+    border-left: 0.5vh solid $color-border;
+
+    h2 {
+        margin: 1vh 0 4vh;
+    }
+    .winners {
+        height: 75vh;
+        padding-right: 1vw;
+        overflow: scroll;
+
+        .winner {
+            margin-bottom: 1vh;
+            padding: 2.5vh 1vw;
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            justify-content: space-between;
+            background: lightgray;
+        }
+    }
+}
+
+.gameBoard {
+    padding: 6vh 3vw;
+    border-right: 0.5vh solid $color-border;
+
+    form {
+        margin-bottom: 4vh;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1vw;
+
+        select, input, button {
+            height: 8vh;
+            padding: 0 5%;
+            border-radius: 5px;
+            border: none;
+            background: rgb(238, 236, 236);
+            outline: none;
+        }
+    }
+    .resultPanel {
+        height: 8vh;
+        text-align: center;
+    }
+}
+
+@mixin field($col, $width) {
+    display: grid;
+    grid-template-columns: repeat($col, auto);
+    justify-content: center;
+
+    .cell {
+        width: $width;
+        height: $width;
+        border: 1px solid black;
+    }
+}
+.playField {
+    margin: auto;
+
+    .row5 { @include field(5, 12vh); }
+    .row10 { @include field(10, 6vh); }
+    .row15 { @include field(15, 4vh); }
+}
