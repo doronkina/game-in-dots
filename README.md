@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Demo version
+
+[Game in Dots](https://doronkina.github.io/game-in-dots/)
+
 ## Available Scripts
 
 In the project directory, you can run:
