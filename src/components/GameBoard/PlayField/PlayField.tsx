@@ -58,15 +58,14 @@ const PlayField: React.FC<PropsType> = props => {
                     setPlayField(newPlayField)
 
                     const newPoints = points.computer + 1
-                    setPoints( {...points, computer: newPoints} )
-                    
                     if (newPoints > playField.length ** 2 / 2 ||
                         (newPoints === points.user && newPoints === playField.length ** 2 / 2)
                     ) {
-                        props.setFinalPoints(points)
+                        props.setFinalPoints( {...points, computer: newPoints} )
                         props.setGameStatus(GameStatusEnum.gameOver)
                         setCurrentCell(null)
                     } else {
+                        setPoints( {...points, computer: newPoints} )
                         randomCell(newPlayField)
                     }
                 }, props.gameMode.delay)
