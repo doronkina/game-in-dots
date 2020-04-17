@@ -13,10 +13,12 @@ export type PropsType = {
 }
 const ResultPanelContainer: React.FC<PropsType> = props => {
     useEffect(() => {
-        const winner = props.finalPoints.user > props.finalPoints.computer ? props.userName : 'computer'
-        const date = moment().format('lll')
+        if (props.finalPoints.user !== props.finalPoints.computer) {
+            const winner = props.finalPoints.user > props.finalPoints.computer ? props.userName : 'computer'
+            const date = moment().format('lll')
 
-        props.postWinner( {winner, date} )
+            props.postWinner( {winner, date} )
+        }
     })
 
     return <ResultPanel {...props} />

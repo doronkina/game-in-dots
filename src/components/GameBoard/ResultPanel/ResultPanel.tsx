@@ -6,7 +6,9 @@ const ResultPanel: React.FC<PropsType> = ( {gameStatus, finalPoints, userName} )
     return (
         <div className="resultPanel">
             {gameStatus === GameStatusEnum.gameOver &&
-                `${finalPoints.user > finalPoints.computer ? userName : 'computer'} won`
+                `${finalPoints.user > finalPoints.computer ? 
+                    userName : (finalPoints.user < finalPoints.computer ? 
+                        'computer' : 'no one')} won`
             }
         </div>
     )

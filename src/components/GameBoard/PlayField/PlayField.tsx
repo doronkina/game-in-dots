@@ -60,9 +60,11 @@ const PlayField: React.FC<PropsType> = props => {
                     const newPoints = points.computer + 1
                     setPoints( {...points, computer: newPoints} )
                     
-                    if (newPoints > playField.length ** 2 / 2) {
-                        props.setGameStatus(GameStatusEnum.gameOver)
+                    if (newPoints > playField.length ** 2 / 2 ||
+                        (newPoints === points.user && newPoints === playField.length ** 2 / 2)
+                    ) {
                         props.setFinalPoints(points)
+                        props.setGameStatus(GameStatusEnum.gameOver)
                         setCurrentCell(null)
                     } else {
                         randomCell(newPlayField)
@@ -82,23 +84,36 @@ const PlayField: React.FC<PropsType> = props => {
             const posX = e.target.className.lastIndexOf(' ') + 1
             const x = +e.target.className.slice(posX)
 
+            const setGameOver = (points: PointsType) => {
+                props.setGameStatus(GameStatusEnum.gameOver)
+                props.setFinalPoints(points)
+            }
+
             let newPlayField, newPoints
             if (currentCell.y === y && currentCell.x === x) {
                 newPlayField = changePlayField('user')
 
                 newPoints = points.user + 1
-                setPoints( {...points, user: newPoints} )
+                if (newPoints > playField.length ** 2 / 2 ||
+                    (newPoints === points.computer && newPoints === playField.length ** 2 / 2)
+                ) {
+                    setGameOver( {...points, user: newPoints} )
+                } else {
+                    setPoints( {...points, user: newPoints} )
+                }
             } else {
                 newPlayField = changePlayField('computer')
 
                 newPoints = points.computer + 1
-                setPoints( {...points, computer: newPoints} )
+                if (newPoints > playField.length ** 2 / 2 ||
+                    (newPoints === points.user && newPoints === playField.length ** 2 / 2)
+                ) {
+                    setGameOver( {...points, computer: newPoints} )
+                } else {
+                    setPoints( {...points, computer: newPoints} )
+                }
             }
 
-            if (newPoints > playField.length ** 2 / 2) {
-                props.setGameStatus(GameStatusEnum.gameOver)
-                props.setFinalPoints(points)
-            }
             setPlayField(newPlayField)
             setCurrentCell(null)
         }
