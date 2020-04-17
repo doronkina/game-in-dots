@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { connect } from 'react-redux'
-import { GameSettingsType, GameStatusEnum, PointsType } from '../../../types/types'
+import { GameSettingsType, GameStatusEnum } from '../../../types/types'
 import Settings from './Settings'
 
 export type PropsType = {
@@ -8,8 +8,6 @@ export type PropsType = {
     gameStatus: GameStatusEnum
     setGameStatus: Dispatch<SetStateAction<GameStatusEnum>>
     setGameMode: Dispatch<SetStateAction<null>>
-    setPoints: Dispatch<SetStateAction<PointsType>>
-    userName: string
     setUserName: Dispatch<SetStateAction<string>>
 }
 const GameContainer: React.FC<PropsType> = props => {

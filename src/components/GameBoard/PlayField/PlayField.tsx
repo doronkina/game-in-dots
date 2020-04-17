@@ -5,12 +5,12 @@ type PropsType = {
     gameMode: ModeType
     gameStatus: GameStatusEnum
     setGameStatus: Dispatch<SetStateAction<GameStatusEnum>>
-    points: PointsType
-    setPoints: Dispatch<SetStateAction<PointsType>>
+    setFinalPoints: Dispatch<SetStateAction<PointsType>>
 }
 const PlayField: React.FC<PropsType> = props => {
     let [playField, setPlayField]: any = useState(null)
     let [currentCell, setCurrentCell]: any = useState(null)
+    let [points, setPoints]: [PointsType, Dispatch<SetStateAction<PointsType>>] = useState( {user: 0, computer:0} )
 
     const createPlayField = (field: number): PlayFieldType => {
         let playField: PlayFieldType = []
@@ -55,13 +55,14 @@ const PlayField: React.FC<PropsType> = props => {
             } else {
                 const timerId = setInterval(() => {
                     const newPlayField = changePlayField('computer')
-                    setPlayField(newPlayField);
+                    setPlayField(newPlayField)
 
-                    const newPoints = props.points.computer + 1
-                    props.setPoints( {...props.points, computer: newPoints} )
+                    const newPoints = points.computer + 1
+                    setPoints( {...points, computer: newPoints} )
                     
                     if (newPoints > playField.length ** 2 / 2) {
                         props.setGameStatus(GameStatusEnum.gameOver)
+                        props.setFinalPoints(points)
                         setCurrentCell(null)
                     } else {
                         randomCell(newPlayField)
@@ -85,39 +86,52 @@ const PlayField: React.FC<PropsType> = props => {
             if (currentCell.y === y && currentCell.x === x) {
                 newPlayField = changePlayField('user')
 
-                newPoints = props.points.user + 1
-                props.setPoints( {...props.points, user: newPoints} )
+                newPoints = points.user + 1
+                setPoints( {...points, user: newPoints} )
             } else {
                 newPlayField = changePlayField('computer')
 
-                newPoints = props.points.computer + 1
-                props.setPoints( {...props.points, computer: newPoints} )
+                newPoints = points.computer + 1
+                setPoints( {...points, computer: newPoints} )
             }
 
-            if (newPoints > playField.length ** 2 / 2) props.setGameStatus(GameStatusEnum.gameOver)
+            if (newPoints > playField.length ** 2 / 2) {
+                props.setGameStatus(GameStatusEnum.gameOver)
+                props.setFinalPoints(points)
+            }
             setPlayField(newPlayField)
             setCurrentCell(null)
         }
     }
 
-    const colors = ['white', 'skyblue', 'lightgreen', 'pink']
+    const cellStatus = ['free', 'current', 'hit', 'miss']
 
     return (
-        <div className="playField">
-            {playField && playField.map((row: Array<number>, y: number) => {
-                return (
-                    <div key={y} className={`row${row.length} ${y}`}>
-                        {row.map((cell, x) => {
-                            return (
-                                <div key={x} className={`cell ${x}`} onClick={onClickHandler}
-                                    style={ { backgroundColor: colors[currentCell && currentCell.y === y && currentCell.x === x ? 1 : cell] } }
-                                ></div>
-                            )
-                        })}
-                    </div>
+        <>
+            {props.gameStatus === GameStatusEnum.isPlaying ?
+                <div className='resultPanel'>
+                    {points.user} : {points.computer}
+                </div> :
+                (props.gameStatus === GameStatusEnum.isPreparing &&
+                    <div className='resultPanel'></div>
                 )
-            })}
-        </div>
+            }
+            <div className="playField">
+                {playField && playField.map((row: Array<number>, y: number) => {
+                    return (
+                        <div key={y} className={`row${row.length} ${y}`}>
+                            {row.map((cell, x) => {
+                                return (
+                                    <div key={x} onClick={onClickHandler}
+                                        className={`cell ${cellStatus[currentCell && currentCell.y === y && currentCell.x === x ? 1 : cell]} ${x}`}
+                                    ></div>
+                                )
+                            })}
+                        </div>
+                    )
+                })}
+            </div>
+        </>
     )
 }
 

@@ -7,13 +7,13 @@ import ResultPanel from './ResultPanel'
 
 export type PropsType = {
     gameStatus: GameStatusEnum
-    points: PointsType
+    finalPoints: PointsType
     userName: string
     postWinner: (winner: WinnerType) => Promise<void>
 }
 const ResultPanelContainer: React.FC<PropsType> = props => {
     useEffect(() => {
-        const winner = props.points.user > props.points.computer ? props.userName : 'computer'
+        const winner = props.finalPoints.user > props.finalPoints.computer ? props.userName : 'computer'
         const date = moment().format('lll')
 
         props.postWinner( {winner, date} )

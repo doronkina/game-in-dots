@@ -12,7 +12,7 @@ const AppContainer: React.FC<PropsType> = props => {
     useEffect( () => {
         props.getGameSettings()
         props.getWinners()
-    } );
+    } )
 
     return <App />
 }

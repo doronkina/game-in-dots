@@ -38,11 +38,11 @@ const setWinners = (winners: WinnersType): SetWinnersActionType => ( {type: SET_
 type ThunkActionType = ThunkAction<Promise<void>, RootStateType, unknown, ActionsTypes>
 export const getWinners = (): ThunkActionType => async dispatch => {
     const res = await toGetWinners()
-    await dispatch( setWinners(res) )
-};
+    await dispatch( setWinners( [...res].reverse() ) )
+}
 export const postWinner = (winner: WinnerType): ThunkActionType => async dispatch => {
     const res = await toPostWinner(winner)
-    await dispatch( setWinners(res) )
+    await dispatch( setWinners( [...res].reverse() ) )
 }
 
 export default winnersReducer

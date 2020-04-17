@@ -32,6 +32,19 @@ $color-border: darkgray;
     }
 }
 
+@mixin activeFormElement($bg) {
+    height: 8vh;
+    padding: 0 5%;
+    border-radius: 5px;
+    border: none;
+    background: $bg;
+    box-shadow: 0 0 0 0.2vw rgb(195, 195, 195);
+    outline: none;
+}
+@mixin disabledFormElement {
+    background: rgb(236, 236, 236);
+    box-shadow: 0 0 0 0.2vw rgb(236, 236, 236);
+}
 .gameBoard {
     padding: 6vh 3vw;
     border-right: 0.5vh solid $color-border;
@@ -42,14 +55,9 @@ $color-border: darkgray;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 1vw;
 
-        select, input, button {
-            height: 8vh;
-            padding: 0 5%;
-            border-radius: 5px;
-            border: none;
-            background: rgb(238, 236, 236);
-            outline: none;
-        }
+        select, input { @include activeFormElement(rgb(236, 236, 236)) }
+        button {@include activeFormElement(rgb(195, 195, 195)) }
+        select:disabled, input:disabled, button:disabled { @include disabledFormElement }
     }
     .resultPanel {
         height: 8vh;
@@ -68,10 +76,18 @@ $color-border: darkgray;
         border: 1px solid black;
     }
 }
+@mixin cell($col) {
+    background: $col;
+}
 .playField {
     margin: auto;
 
-    .row5 { @include field(5, 12vh); }
-    .row10 { @include field(10, 6vh); }
-    .row15 { @include field(15, 4vh); }
+    .row5 { @include field(5, 12vh) }
+    .row10 { @include field(10, 6vh) }
+    .row15 { @include field(15, 4vh) }
+
+    .free { @include cell(white) }
+    .current { @include cell(skyblue) }
+    .hit { @include cell(lightgreen) }
+    .miss { @include cell(pink) }
 }

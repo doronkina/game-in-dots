@@ -9,7 +9,7 @@ function App() {
       <GameBoard />
       <LeaderBoardContainer />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
